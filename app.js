@@ -5,13 +5,50 @@ const bodyParser = require("body-parser");
 const port = 3000;
 const app = express();
 
-app.get("/",function(req,res){
+let newItems = ["eat","run","cook"];
 
-  res.send("Hello World");
+
+app.set('view engine', 'ejs');
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
+
+app.get("/", function(req, res) {
+
+  let today = new Date();
+  let currentDay = today.getDay();
+
+  let options = {
+    weekday: "long",
+    day: "numeric",
+    month: "long"
+  };
+
+  let now = today.toLocaleDateString("en-ES", options);
+
+  res.render("list", {
+    now: now,
+     newItems : newItems
+
+  });
 
 });
 
+app.post("/", function(req, res) {
 
-app.listen(port,function(){
+  let newItem = req.body.newItem;
+
+  newItem =  newItem;
+  newItems.push(newItem);
+
+  res.redirect("/");
+});
+
+
+
+
+app.listen(port, function() {
   console.log("OKAY! It's running!");
 });
+
+//https://github.com/johndominicvillalino/todolist.git
