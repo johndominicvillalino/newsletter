@@ -5,13 +5,16 @@ const bodyParser = require("body-parser");
 const port = 3000;
 const app = express();
 
-let newItems = ["eat","run","cook"];
+let newItems = ["eat", "run", "cook"];
 
-
-app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({
   extended: true
 }));
+
+app.use(express.static("public"));
+app.set('view engine', 'ejs');
+
+
 
 app.get("/", function(req, res) {
 
@@ -28,7 +31,7 @@ app.get("/", function(req, res) {
 
   res.render("list", {
     now: now,
-     newItems : newItems
+    newItems: newItems
 
   });
 
@@ -38,7 +41,7 @@ app.post("/", function(req, res) {
 
   let newItem = req.body.newItem;
 
-  newItem =  newItem;
+  newItem = newItem;
   newItems.push(newItem);
 
   res.redirect("/");
