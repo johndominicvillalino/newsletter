@@ -4,8 +4,11 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const port = 3000;
 const app = express();
+const date = require(__dirname + "/date.js");
 
-let newItems = ["eat", "run", "cook"];
+// console.log(require);
+
+const newItems = ["eat", "run", "cook"];
 
 app.use(bodyParser.urlencoded({
   extended: true
@@ -14,36 +17,26 @@ app.use(bodyParser.urlencoded({
 app.use(express.static("public"));
 app.set('view engine', 'ejs');
 
-
+// let now = date.getDay();
 
 app.get("/", function(req, res) {
 
-  let today = new Date();
-  let currentDay = today.getDay();
-
-  let options = {
-    weekday: "long",
-    day: "numeric",
-    month: "long"
-  };
-
-  let now = today.toLocaleDateString("en-ES", options);
+const now = date.getDate();
 
   res.render("list", {
-    now: now,
+    listTitle: now,
     newItems: newItems
-
   });
+});
 
+app.get("/about", function(req, res) {
+  res.render("about");
 });
 
 app.post("/", function(req, res) {
-
   let newItem = req.body.newItem;
-
   newItem = newItem;
   newItems.push(newItem);
-
   res.redirect("/");
 });
 
